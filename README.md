@@ -8,7 +8,7 @@
 
 ## Software requirements
 ### OS Requirements
-These codes are supported for *Windos* and *Linux*, and have been tested on
+These codes are expected to be supported for *Windows* and *Linux*, and have been tested on
 + Linux x86_64
 
 ### Software Package Dependencies
@@ -24,7 +24,7 @@ These codes are supported for *Windos* and *Linux*, and have been tested on
 + GRO2LAM
 
 ## Installation Guide
-No additional installation is ndded to use `PolymerTC` as long as all dependencies have been successfully installed. Then
+No additional installation is needed to use `PolymerTC` as long as all dependencies have been successfully installed. Then
 ```
 git clone https://github.com/chunlinxuizz/PolymerTC
 cd PolymerTC
@@ -62,6 +62,7 @@ The `kappa.py` fits the NEMD calculated temperature gradients and heat currents 
 ### 3. Calculate dynamic structure factors
 ```
 cd step3-calculate_dynamic_structure_factors
+# Replace the file /dynasor/trajectory/lammps_trajectory_reader.py with the file in this fold to enable mass weighting
 sbatch dynasor.slurm
 ```
 Successive equilibrium MD simulations will be conducted, and the atomic velocities and positions will be saved. Dynamic structure factors of each period of time are calculated with [`dynasor`](https://gitlab.com/materials-modeling/dynasor) code, and eventually, the averaged dynamic structure factors will be saved in `output.pickle`. 
