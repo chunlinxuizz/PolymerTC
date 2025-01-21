@@ -1,0 +1,55 @@
+# EM->NPT->NEMD
+
+units            real
+boundary         p p p
+atom_style       full
+
+atom_modify      map array
+pair_style       lj/cut/coul/long 10
+bond_style       harmonic
+angle_style      harmonic
+dihedral_style   opls
+improper_style   cvff
+special_bonds    amber
+pair_modify      mix arithmetic
+
+read_data        data.pbttt_7x10x2i   ####
+
+kspace_style     pppm 1e-4
+
+#simulation
+#minimize         1.0e-4 1.0e-6 1000 10000
+#reset_timestep 0
+
+velocity         all create 300 1234567 rot yes dist gaussian
+
+thermo  1000
+thermo_style   custom step temp press lx ly lz xy xz yz
+fix     npt_name1 all npt temp 300 300 100 iso 1.0 1.0 1000
+run     500000
+unfix   npt_name1
+write_restart restart.npt
+# impose a temperature of 300 K (with a damping constant of 100 fs)
+# and a pressure of 1 atmosphere (with a damping constant of 1000 fs). 
+# With the iso keyword, the three dimensions of the box will be re-scaled simultaneously.
+
+reset_timestep 0
+
+# NEMD
+group      carbon type 1 3 5 8 11 ####
+fix        1 carbon thermal/conductivity 200 x 20 swap 1  ########
+# fix ID group-ID thermal/conductivity N edim Nbin keyword value
+compute    ke all ke/atom
+# T = Ek/1.5/kB/N, N=1
+variable   temp atom c_ke/1.5/0.001987
+compute    layers all chunk/atom bin/1d x lower 0.05 units reduced  ######
+fix        2 all ave/chunk 10 100 1000 layers v_temp file tmp.profile 
+# every 1000 steps output data that was sampled 100 times per 10 times
+fix        3 all nve
+dump       2 all atom 100000 dump.nemd.lammpstrj
+thermo_style custom step pe ke etotal f_1
+thermo     1000
+
+restart    1000000 restart.nemd
+run        5000000
+

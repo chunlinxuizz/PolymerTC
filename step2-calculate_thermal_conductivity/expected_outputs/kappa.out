@@ -1,0 +1,12 @@
+COS: 1.00000e+00 m^2
+Length per layer: 4.66497e-10 m
+
+Step     f_1 (kJ/mol)
+1000000  21087.449
+2000000  42241.594
+3000000  63435.971
+4000000  84621.480
+5000000  105875.110
+
+Thermal conductivity κ:  0.706 W/(m K)
+Standard error of κ:    0.0061 W/(m K)
