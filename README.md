@@ -48,7 +48,8 @@ cd step1-generate_morphology
 sbatch run.slurm
 # Note that the slurm file should modefied to fit your HPC system
 ```
-After finished GROMACS calculations, a geometry file named `npt-equial_pbcatom.gro` will be generated, use it and toplogical files in `force_fields` folder to generate LAMMPS data files with [`GRO2LAM`](https://github.com/hernanchavezthielemann/GRO2LAM) code.
+After finished GROMACS calculations, a geometry file named `npt-equial_pbcatom.gro` will be generated, use it and toplogical files in `force_fields` folder to generate LAMMPS data files with [`GRO2LAM`](https://github.com/hernanchavezthielemann/GRO2LAM) code. The expected runtime of this example is around 5h on a X86 64C 2.5GHz computer.
+
 ### 2. Calculate thermal conductivity
 ```
 cd step2-calculate_thermal_conductivity
@@ -58,7 +59,7 @@ sbatch lmp.slurm
 # After finished the LAMMPS calculations
 python kappa.py
 ```
-The `kappa.py` fits the NEMD calculated temperature gradients and heat currents to compute thermal conductivities.
+The `kappa.py` fits the NEMD calculated temperature gradients and heat currents to compute thermal conductivities. The expected runtime for this example is around 6 hours on a X86 64C 2.5GHz computer.
 
 ### 3. Calculate dynamic structure factors
 ```
@@ -66,7 +67,7 @@ cd step3-calculate_dynamic_structure_factors
 # Replace the file /dynasor/trajectory/lammps_trajectory_reader.py with the file in this fold to enable mass weighting
 sbatch dynasor.slurm
 ```
-Successive equilibrium MD simulations will be conducted, and the atomic velocities and positions will be saved. Dynamic structure factors of each period of time are calculated with [`dynasor`](https://gitlab.com/materials-modeling/dynasor) code, and eventually, the averaged dynamic structure factors will be saved in `output.pickle`. 
+Successive equilibrium MD simulations will be conducted, and the atomic velocities and positions will be saved. Dynamic structure factors of each period of time are calculated with [`dynasor`](https://gitlab.com/materials-modeling/dynasor) code, and eventually, the averaged dynamic structure factors will be saved in `output.pickle`. The expected runtime for this example is around 45 hours on a X86 64C 2.5GHz computer.
 ### 4. Fit dynamic structure factors
 ```
 cd step4-fit_dynamic_structure_factors
@@ -74,7 +75,7 @@ python dsf_fitter.py
 ```
 `dsf_fitter.py` is a python code to automatically fit the dynamic structure factors calculated in step 3. The 
 peak frequencies and mode linewidthes will be outputted in the secreen. 
-However, it is important to note that the parameters in `dsf_fitter.py`, such as the number of peaks, should be manually modefied to fit peaks in different frequency regions.
+However, it is important to note that the parameters in `dsf_fitter.py`, such as the number of peaks, should be manually modefied to fit peaks in different frequency regions. 
 ### 5. Estimate propagons thermal conductivity
 ```
 cd step5-estimate_propagons_thermal_conductivity
