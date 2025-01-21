@@ -12,8 +12,8 @@ These codes are expected to be supported for *Windows* and *Linux*, and have bee
 + Linux x86_64
 
 ### Software Package Dependencies
-+ LAMMPS v23Jun2022
-+ GROMACS v2022.2
++ [LAMMPS v23Jun2022](https://www.lammps.org/download.html)
++ [GROMACS v2022.2](https://www.gromacs.org/Downloads)
 
 ### Python Dependencies
 + python >= 3.7
