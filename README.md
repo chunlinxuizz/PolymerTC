@@ -16,12 +16,13 @@ These codes are expected to be supported for *Windows* and *Linux*, and have bee
 + GROMACS v2022.2
 
 ### Python Dependencies
-+ numpy
-+ scipy
-+ matplotlib
-+ dynasor
-+ phonopy
-+ GRO2LAM
++ python >= 3.7
++ numpy >= 1.24.1
++ scipy >= 1.10.1
++ matplotlib >= 3.7.1
++ dynasor == 2.0
++ phonopy >= 2.21.1
++ GRO2LAM == 1.25
 
 ## Installation Guide
 No additional installation is needed to use `PolymerTC` as long as all dependencies have been successfully installed. Then
