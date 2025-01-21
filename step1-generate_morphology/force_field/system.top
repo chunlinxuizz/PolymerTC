@@ -1,0 +1,32 @@
+[ defaults ]
+; nbfunc        comb-rule       gen-pairs       fudgeLJ fudgeQQ
+1               2               yes             0.5     0.8333
+
+[ atomtypes ]
+; name   at.num      mass       charge   ptype     sigma (nm)    epsilon (kJ/mol)
+cc           6    12.010736    0.000000    A      3.399670E-01    3.598240E-01
+ss          16    32.064787    0.000000    A      3.563595E-01    1.046000E+00
+c2           6    12.010736    0.000000    A      3.399670E-01    3.598240E-01
+ha           1     1.007941    0.000000    A      2.599642E-01    6.276000E-02
+c3           6    12.010736    0.000000    A      3.399670E-01    4.577296E-01
+hc           1     1.007941    0.000000    A      2.649533E-01    6.568880E-02
+n            7    14.006703    0.000000    A      3.249999E-01    7.112800E-01
+c            6    12.010736    0.000000    A      3.399670E-01    3.598240E-01
+o            8    15.999405    0.000000    A      2.959922E-01    8.786400E-01
+UF_Se       34    78.959389    0.000000    A      3.746229E-01    1.217544E+00
+ce           6    12.010736    0.000000    A      3.399670E-01    3.598240E-01
+h1           1     1.007941    0.000000    A      2.471353E-01    6.568880E-02
+
+#include "polymers.itp"
+
+; Include Position restraint file
+#ifdef POSRES
+#include "posre.itp"
+#endif
+
+[ system ]
+PSHJ
+
+[ molecules ]
+; Molecule      nmols
+pbttt_n7i        20
