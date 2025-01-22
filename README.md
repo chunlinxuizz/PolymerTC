@@ -1,4 +1,20 @@
 # PolymerTC
+## Table of Contents
+1. [Overview](#overview)
+2. [Hardware Requirements](#hardware-requirements)
+3. [Software Requirements](#software-requirements)
+    1. [OS Requirements](#os-requirements)
+    2. [Software Package Dependencies](#software-package-dependencies)
+    3. [Python Dependencies](#python-dependencies)
+4. [Installation Guide](#installation-guide)
+5. [Demo](#demo)
+6. [Instructions for Use](#instructions-for-use)
+    1. [Step 1. Generate Morphology](#1-generate-morphology)
+    2. [Step 2. Calculate Thermal Conductivity](#2-calculate-thermal-conductivity)
+    3. [Step 3. Calculate Dynamic Structure Factors](#3-calculate-dynamic-structure-factors)
+    4. [Step 4. Fit Dynamic Structure Factors](#4-fit-dynamic-structure-factors)
+    5. [Step 5. Estimate Propagons Thermal Conductivity](#5-estimate-propagons-thermal-conductivity)
+    6. [Step 6. Calculate Phonon Band and Longitudinality](#6-calculate-phonon-band-and-longitudinality)
 
 ## Overview
 `PolymerTC` includes code and workflows for studying vibrational thermal transport in polymer semiconductors, integrating molecular dynamics (MD) simulations with density functional theory (DFT) calculations. It is divided into six sections, providing either input files for existing open-source codes or sample codes for data analysis, along with the expected outputs.
