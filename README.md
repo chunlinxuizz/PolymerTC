@@ -86,7 +86,7 @@ python estimate_propagons_TC.py
 cd step6-calculate_phonon_band_and_longitudinality
 unzip FORCE_SETS.zip
 phonopy --cp2k -c pbttt.inp -p -s band.conf
-./extract_eigenvectors.sh
+bash extract_eigenvectors.sh
 python calculate_backbone_longitudinality.py
 python calculate_sidechain_longitudinality.py
 ```
