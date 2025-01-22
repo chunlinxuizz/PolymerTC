@@ -48,7 +48,7 @@ cd step1-generate_morphology
 sbatch run.slurm
 # Note that the Slurm script should be modified to accommodate your High-Performance Computing (HPC) system.
 ```
-After completing the GROMACS calculations, a geometry file named `npt-equial_pbcatom.gro` will be generated, Use this file, along with the toplogical files located in the `force_fields` folder, to generate LAMMPS data files using the [`GRO2LAM`](https://github.com/hernanchavezthielemann/GRO2LAM) code. The expected runtime for this example is approximately 5 hours on an *x86-64, 2.5 GHz, 64 cores* computer.
+After completing the GROMACS calculations, a geometry file named `npt-equial_pbcatom.gro` will be generated, Use this file, along with the toplogical files located in the `force_fields` folder, to generate LAMMPS data files using the [`GRO2LAM`](https://github.com/hernanchavezthielemann/GRO2LAM) code. The expected runtime for this example is approximately 5 hours on an *x86-64, 2.5 GHz, 64-cores* computer.
 
 ### 2. Calculate thermal conductivity
 ```
@@ -59,14 +59,14 @@ sbatch lmp.slurm
 # After finishing the LAMMPS calculations
 python kappa.py
 ```
-The `kappa.py` script fits the NEMD calculated temperature gradients and heat currents to compute thermal conductivities. The expected runtime for this example is approximately 6 hours on an *x86-64, 2.5 GHz, 64 cores* computer.
+The `kappa.py` script fits the NEMD calculated temperature gradients and heat currents to compute thermal conductivities. The expected runtime for this example is approximately 6 hours on an *x86-64, 2.5 GHz, 64-cores* computer.
 
 ### 3. Calculate dynamic structure factors
 ```
 cd step3-calculate_dynamic_structure_factors
 sbatch dynasor.slurm
 ```
-Before running this step, replace the file named `lammps_trajectory_reader.py` located in [`/dynasor/trajectory/`](https://gitlab.com/materials-modeling/dynasor) with the modefied version in the `step3-calculate_dynamic_structure_factors` folder to enable mass weighting. The simulation will run 20 equilibrium MD steps (each 40 ps, totaling 800 ps) and save atomic velocities and positions. The dynamic structure factors for each step will be calculated using the [`dynasor`](https://gitlab.com/materials-modeling/dynasor) code, and ultimately, the averaged dynamic structure factors will be stored in `output.pickle`. The expected runtime for this example is approximately 45 hours on an *x86-64, 2.5 GHz, 64 cores* computer.
+Before running this step, replace the file named `lammps_trajectory_reader.py` located in [`/dynasor/trajectory/`](https://gitlab.com/materials-modeling/dynasor) with the modefied version in the `step3-calculate_dynamic_structure_factors` folder to enable mass weighting. The simulation will run 20 equilibrium MD steps (each 40 ps, totaling 800 ps) and save atomic velocities and positions. The dynamic structure factors for each step will be calculated using the [`dynasor`](https://gitlab.com/materials-modeling/dynasor) code, and ultimately, the averaged dynamic structure factors will be stored in `output.pickle`. The expected runtime for this example is approximately 45 hours on an *x86-64, 2.5 GHz, 64-cores* computer.
 ### 4. Fit dynamic structure factors
 ```
 cd step4-fit_dynamic_structure_factors
