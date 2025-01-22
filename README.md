@@ -66,7 +66,7 @@ The `kappa.py` script fits the NEMD calculated temperature gradients and heat cu
 cd step3-calculate_dynamic_structure_factors
 sbatch dynasor.slurm
 ```
-Before run this step, replace the file named `lammps_trajectory_reader.py` located in [`/dynasor/trajectory/`](https://gitlab.com/materials-modeling/dynasor) with the file in `step3-calculate_dynamic_structure_factors` to enable mass weighting. The simulation will run 20 equilibrium MD steps (each 40 ps, totaling 800 ps) and save atomic velocities and positions. The dynamic structure factors for each step will be calculated using the [`dynasor`](https://gitlab.com/materials-modeling/dynasor) code, and ultimately, the averaged dynamic structure factors will be stored in `output.pickle`. The expected runtime for this example is approximately 45 hours on an *x86-64, 2.5 GHz, 64 cores* computer.
+Before running this step, replace the file named `lammps_trajectory_reader.py` located in [`/dynasor/trajectory/`](https://gitlab.com/materials-modeling/dynasor) with the modefied version in the `step3-calculate_dynamic_structure_factors` folder to enable mass weighting. The simulation will run 20 equilibrium MD steps (each 40 ps, totaling 800 ps) and save atomic velocities and positions. The dynamic structure factors for each step will be calculated using the [`dynasor`](https://gitlab.com/materials-modeling/dynasor) code, and ultimately, the averaged dynamic structure factors will be stored in `output.pickle`. The expected runtime for this example is approximately 45 hours on an *x86-64, 2.5 GHz, 64 cores* computer.
 ### 4. Fit dynamic structure factors
 ```
 cd step4-fit_dynamic_structure_factors
