@@ -39,6 +39,7 @@ Currently, `PolymerTC` consists six components, which include
 + Fit dynamic structure factor
 + Estimate propagons thermal conductivity
 + Calculate phonon band and longitudinality
+
 Each component is housed in its own folder and contains either input files for existing open-source codes or sample codes for data analysis, along with the expected outputs.
 
 ## Instructions for Use
