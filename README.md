@@ -74,7 +74,7 @@ Before running this step, replace the file named `lammps_trajectory_reader.py` l
 cd step4-fit_dynamic_structure_factors
 python dsf_fitter.py
 ```
-`dsf_fitter.py` is a Python code designed to automatically fit the dynamic structure factors calculated in step 3 with damped harmonic oscillators (DHOs). The 
+`dsf_fitter.py` is a Python code designed to automatically fit the dynamic structure factors calculated in Step 3 with damped harmonic oscillators (DHOs). The 
 peak frequencies and mode linewidthes will be displayed on the secreen. 
 However, it is crucial to note that the parameters within `dsf_fitter.py`, such as the number of peaks, should be manually adjuested to accommodate peaks in different frequency regions. 
 ### 5. Estimate propagons thermal conductivity
@@ -82,7 +82,7 @@ However, it is crucial to note that the parameters within `dsf_fitter.py`, such 
 cd step5-estimate_propagons_thermal_conductivity
 python estimate_propagons_TC.py
 ```
-`estimate_propagons_TC.py` is a Python script used to estimate the propagons-mediated thermal conductivities utilizing data extrated in step 4. The input files are text files that contain the data obtained by fitting the dynamic_structure_factors described in step 4, including q-points, peak frequencies, and mode linewidths.
+`estimate_propagons_TC.py` is a Python script used to estimate the propagons-mediated thermal conductivities utilizing data extrated in Step 4. The input files are text files that contain the data obtained by fitting the dynamic_structure_factors described in Step 4, including q-points, peak frequencies, and mode linewidths.
 ### 6. Calculate phonon band and longitudinality
 ```
 cd step6-calculate_phonon_band_and_longitudinality
