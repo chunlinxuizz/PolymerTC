@@ -41,7 +41,7 @@ These codes are intended to be supported on both *Linux* and *Windows* platforms
 + GRO2LAM == 1.25
 
 ## Installation Guide
-No additional installation is needed to use `PolymerTC` as long as all dependencies have been successfully installed. Then
+No additional installation is needed to use `PolymerTC` as long as all dependencies have been successfully installed. Then:
 ```
 git clone https://github.com/chunlinxuizz/PolymerTC
 cd PolymerTC
