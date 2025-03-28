@@ -2,7 +2,7 @@
 """
 Created on Tue Aug 27 11:41:43 2024
 
-@author: chunlinxu and GPT4
+@author: chunlinxu
 """
 
 import numpy as np
