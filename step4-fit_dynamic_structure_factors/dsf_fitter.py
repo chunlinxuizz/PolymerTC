@@ -2,7 +2,7 @@
 """
 Created on Tue Aug 27 11:41:43 2024
 
-@author: chunlinxu
+@author: chunlinxu and GPT4
 """
 
 import numpy as np
@@ -27,8 +27,8 @@ plt.rc('font', family='Times New Roman')
 
 class MultiPeakFitter:
     def __init__(self, data, cqw='Clqw', conversion_factor=1, wmin=0,wmax=10, rmsd_threshold=1e-5,
-                 stop_improvement=1e-6, min_attempts=2, ratio_threshold=20, 
-                 w_dist_threshold=0.01, min_peak_num=1, max_peak_num=4,smear_sigma=1):
+                 stop_improvement=1e-6, ratio_threshold=20, 
+                 w_dist_threshold=0.01, min_peak_num=1, max_peak_num=4,smear_sigma=None, min_attempts=None):
         """
         Initialize an instance of the MultiPeakFitter class.
         
@@ -68,12 +68,15 @@ class MultiPeakFitter:
         self.wmax = wmax
         self.rmsd_threshold = rmsd_threshold
         self.stop_improvement = stop_improvement
-        self.min_attempts = min_attempts
         self.ratio_threshold = ratio_threshold
         self.w_dist_threshold = w_dist_threshold
         self.min_peak_num = min_peak_num
         self.max_peak_num = max_peak_num
         self.smear_sigma = smear_sigma
+        if min_attempts:
+            self.min_attempts = min_attempts
+        else:
+            self.min_attempts = max_peak_num
 
     @staticmethod
     def function_Ckw(w, w0, gamma, A):
@@ -83,30 +86,49 @@ class MultiPeakFitter:
     def function_Ckw_overdumped(w, w0, gamma, A):
         return A * w**2 * 2 * gamma * w0**2 / ((w**2 - w0**2)**2 + gamma**2 * w**2)
 
+    @staticmethod
+    def smoothen(func, df, widthWin):
+       gwin = np.ceil(widthWin / df)
+
+       if gwin % 2 == 0:
+          gwin = gwin+1
+       if gwin == 1:
+          gauss = np.array([1])
+       else:
+          n = 2*np.arange(0,gwin)/(gwin-1)-(1)
+          n = (3*n)
+          gauss = np.exp(-np.multiply(n,n)/2.0)
+          gauss = gauss/np.sum(gauss)
+
+       return np.convolve(func, gauss, mode = 'same')
+
+
     def multi_peak_function(self, w, *params):
         num_peaks = len(params) // 3
         result = np.zeros_like(w)
         for i in range(num_peaks):
             w0, gamma, A = params[i*3:(i+1)*3]
             result += self.function_Ckw(w, w0, gamma, A)
-        return result
+        return result        
+
 
     def estimate_initial_params(self, w_data, Ckw_data, n_peaks):
-        if self.smear_sigma < 1:
+        if not self.smear_sigma:
             peaks, _ = find_peaks(Ckw_data, height=0)
             sorted_peaks = peaks[np.argsort(Ckw_data[peaks])[::-1]]
         else:
-            Ckw_smoothed = gaussian_filter1d(Ckw_data, sigma=self.smear_sigma)
+            # Ckw_smoothed = gaussian_filter1d(Ckw_data, sigma=self.smear_sigma)
+            Ckw_smoothed = self.smoothen(Ckw_data, self.omega[1]-self.omega[0], self.smear_sigma)
             peaks, _ = find_peaks(Ckw_smoothed, height=0)
             sorted_peaks = peaks[np.argsort(Ckw_smoothed[peaks])[::-1]]
         
         params = []
         for i in range(min(n_peaks, len(sorted_peaks))):
             w0_init = w_data[sorted_peaks[i]]
-            gamma_init = w0_init / 2
+            gamma_init = 0.1
             A_init = Ckw_data[sorted_peaks[i]] / self.function_Ckw(w0_init, w0_init, gamma_init, 1.0)
+            
             params.extend([w0_init, gamma_init, A_init])
-        
         while len(params) < n_peaks * 3:
             params.extend(params[-3:])
         # plt.plot(w_data, Ckw_data, 'gray', label='Original Data', lw=3, alpha=0.5)
@@ -154,7 +176,7 @@ class MultiPeakFitter:
             plt.title(f'\#q: {q}')
             # plt.tight_layout()
 
-    def fit_and_plot(self, q, figname):
+    def fit_and_plot(self, q, figname=None):
         omega_mask = (self.omega < self.wmax) & (self.omega > self.wmin)
         w_data = self.omega[np.where(omega_mask)]
         Ckw_data = self.Cqw[q][np.where(omega_mask)]
@@ -167,7 +189,7 @@ class MultiPeakFitter:
         for num_peaks in range(self.min_peak_num, self.max_peak_num + 1):
             p0_estimated = self.estimate_initial_params(w_data, Ckw_data, num_peaks)
             try:
-                popt, _ = curve_fit(self.multi_peak_function, w_data, Ckw_data, p0=p0_estimated)
+                popt, _ = curve_fit(self.multi_peak_function, w_data, Ckw_data, p0=p0_estimated, bounds=(0, np.inf))
                 fitted_curve = self.multi_peak_function(w_data, *popt)
                 rmsd = self.calculate_rmsd(Ckw_data, fitted_curve, self.ratio_threshold)
                 all_results.append((num_peaks, rmsd, popt))
@@ -197,9 +219,11 @@ class MultiPeakFitter:
             best_params = best_params[np.argsort(best_params[:, 0])]
             for params in best_params:
                 plt.plot(w_data, self.function_Ckw(w_data, *params), ls=':', lw=1)
-                print(q, self.q_norms[q], abs(params[0]), params[1], params[2], end=' ')
+                print(q, self.q_norms[q], abs(params[0]), params[1], 
+                      2*params[2]/params[1]*params[0]*params[0], end=' ')
             print('')
                 
+
         plt.xlabel(r'$\omega$')
         plt.ylabel(r'C($q$,$\omega$)')
         plt.xlim(self.wmin, self.wmax)
@@ -207,23 +231,28 @@ class MultiPeakFitter:
         plt.title(f'$q$ = {self.q_norms[q]:.2f} nm$^{{-1}}$')
         plt.legend(frameon=0)
         plt.tight_layout()
-        plt.savefig(figname)
+        if figname:
+            plt.savefig(figname)
+        plt.show()
+
 
 if __name__ == '__main__':
-    with open('pbttt_backbone.pickle', 'rb') as fin:
+    with open('angle_40.pickle', 'rb') as fin:
         data = pickle.load(fin)
     
     fitter_cfg = dict(data = data, cqw = 'Ctqw',
-                      wmin=0,wmax=4,
-                      min_attempts=2, 
+                      wmin=0,wmax=12, 
                       ratio_threshold=50, 
-                      w_dist_threshold=0.01, 
-                      min_peak_num=1, max_peak_num=2,
-                      smear_sigma=2)
+                      w_dist_threshold=1, 
+                      min_peak_num=2, max_peak_num=2, 
+                      smear_sigma=3)
     
     
     fitter = MultiPeakFitter(**fitter_cfg)
-    for q in range(26,27):
-        figname=f'expected_outputs/Cqw_{q}.png'
-        fitter.fit_and_plot(q=q, figname=figname)
+    for q in range(75,95):
+        w = fitter.omega[np.argmax(fitter.Cqw[q])]
+        if w > 0:
+            fitter.fit_and_plot(q=q, figname=None)
     
+    # fitter.plot_peaks(np.arange(1,10))
+
