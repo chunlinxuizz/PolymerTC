@@ -11,18 +11,6 @@ from scipy.optimize import curve_fit
 from scipy.signal import find_peaks
 from scipy.ndimage import gaussian_filter1d
 import matplotlib.pyplot as plt
-from matplotlib import rcParams
-plt.rc('font', size=14)
-plt.rc('pgf', preamble=r'\\usepackage{amsmath}')
-pgf_config = {
-    "font.family":'serif',
-    "pgf.rcfonts": False,
-    "text.usetex": True,
-    "pgf.preamble": r"\\usepackage{unicode-math}\
-\\setmainfont{Times New Roman}",
-}
-rcParams.update(pgf_config)
-plt.rc('font', family='Times New Roman')
 
 
 class MultiPeakFitter:
@@ -255,5 +243,6 @@ if __name__ == '__main__':
             fitter.fit_and_plot(q=q, figname=None)
     
     # fitter.plot_peaks(np.arange(1,10))
+
 
 
