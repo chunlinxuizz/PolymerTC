@@ -2,7 +2,7 @@
 """
 Created on Tue Aug 27 11:41:43 2024
 
-@author: chunlinxu and GPT4
+@author: chunlinxu
 """
 
 import numpy as np
@@ -255,4 +255,5 @@ if __name__ == '__main__':
             fitter.fit_and_plot(q=q, figname=None)
     
     # fitter.plot_peaks(np.arange(1,10))
+
 
