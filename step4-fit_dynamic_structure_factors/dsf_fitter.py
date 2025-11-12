@@ -225,10 +225,10 @@ class MultiPeakFitter:
 
 
 if __name__ == '__main__':
-    with open('angle_40.pickle', 'rb') as fin:
+    with open('pbttt_backbone.pickle', 'rb') as fin:
         data = pickle.load(fin)
     
-    fitter_cfg = dict(data = data, cqw = 'Ctqw',
+    fitter_cfg = dict(data = data, cqw = 'Clqw',
                       wmin=0,wmax=12, 
                       ratio_threshold=50, 
                       w_dist_threshold=1, 
@@ -237,12 +237,13 @@ if __name__ == '__main__':
     
     
     fitter = MultiPeakFitter(**fitter_cfg)
-    for q in range(75,95):
+    for q in range(20,21):
         w = fitter.omega[np.argmax(fitter.Cqw[q])]
         if w > 0:
             fitter.fit_and_plot(q=q, figname=None)
     
     # fitter.plot_peaks(np.arange(1,10))
+
 
 
 
