@@ -17,7 +17,7 @@
     6. [Step 6. Calculate Phonon Band and Longitudinality](#6-calculate-phonon-band-and-longitudinality)
 
 ## Overview
-`PolymerTC` includes code and workflows for studying vibrational thermal transport in polymer semiconductors, integrating molecular dynamics (MD) simulations with density functional theory (DFT) calculations. It is divided into six sections, providing either input files for existing open-source codes or sample codes for data analysis, along with the expected outputs.
+`PolymerTC` includes code and workflows for studying vibrational thermal transport in polymer semiconductors, integrating molecular dynamics (MD) simulations with density functional theory (DFT) calculations. It is divided into six sections, providing either input files for existing open-source codes or sample codes for data analysis, along with the expected outputs. [![DOI](https://zenodo.org/badge/920190928.svg)](https://doi.org/10.5281/zenodo.17596640)
 
 ## Hardware requirements
 `PolymerTC` requires only a standard computer with sufficient RAM to support in-memory operations.
