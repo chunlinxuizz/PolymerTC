@@ -237,12 +237,13 @@ if __name__ == '__main__':
     
     
     fitter = MultiPeakFitter(**fitter_cfg)
-    for q in range(20,21):
+    for q in range(26,27):
         w = fitter.omega[np.argmax(fitter.Cqw[q])]
         if w > 0:
             fitter.fit_and_plot(q=q, figname=None)
     
     # fitter.plot_peaks(np.arange(1,10))
+
 
 
 
